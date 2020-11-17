@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
+const { auth } = require('./middleware/auth');
 const { User } = require('./models/User');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -34,7 +35,7 @@ app.get('/', (req, res) => {
 });
 
 // 회원가입 엔드포인트
-app.post('/register', (request, response) => {
+app.post('/api/users/register', (request, response) => {
   //회원 정보를 DB에 저장
   const user = new User(request.body);
   user.save((error, userInfo) => {
@@ -43,7 +44,7 @@ app.post('/register', (request, response) => {
   });
 });
 
-app.post('/login', (request, response) => {
+app.post('/api/users/login', (request, response) => {
   // DB에서 찾기
   User.findOne({ email: request.body.email }, (error, user) => {
     if (!user) {
@@ -72,6 +73,31 @@ app.post('/login', (request, response) => {
       });
     });
   });
+});
+
+app.get('/api/users/auth', auth, (request, response) => {
+  //미들웨어를 통과하면 auth: true
+  response.status(200).json({
+    _id: request.user._id, //auth.js에서 user, token을 request에 넣어서 가능
+    isAdmin: request.user.role === 0 ? false : true, //role: 0이면 관리자가 아닌 일반유저
+    isAuth: true,
+    email: request.user.email,
+    name: request.user.name,
+    role: request.user.role,
+    image: request.user.image,
+  });
+});
+
+app.get('/api/users/logout', auth, (request, response) => {
+  // 로그아웃하려면 DB에 있는 토큰 null로 만든다.
+  User.findOneAndUpdate(
+    { _id: request.user._id },
+    { token: '' },
+    (err, user) => {
+      if (err) return response.json({ logoutSuccess: false, err });
+      return response.status(200).send({ logoutSuccess: true });
+    },
+  );
 });
 
 app.listen(port, () => {

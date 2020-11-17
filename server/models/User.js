@@ -72,6 +72,20 @@ userSchema.methods.createToken = function (fn) {
   });
 };
 
+// 토큰으로 유저 찾기
+userSchema.statics.findByToken = function (token, fn) {
+  let user = this;
+
+  // 토큰 decode
+  jwt.verify(token, 'secretToken', function (err, decoded) {
+    //user._id를 이용하여 유저를 찾은 후 쿠키 토큰과 DB 토큰이 일치하는지 확인
+    user.findOne({ _id: decoded, token: token }, function (err, user) {
+      if (err) return fn(err);
+      fn(null, user);
+    });
+  });
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User };
