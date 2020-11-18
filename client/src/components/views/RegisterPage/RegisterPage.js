@@ -54,7 +54,7 @@ function RegisterPage(props) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        alignContent: 'center',
+        alignItems: 'center',
         width: '100%',
         height: '100vh',
       }}
@@ -63,19 +63,92 @@ function RegisterPage(props) {
         style={{ display: 'flex', flexDirection: 'column' }}
         onSubmit={onSubmitHandler}
       >
-        <label>Email</label>
-        <input type="email" value={Email} onChange={onEmailHandler} />
-        <label>Name</label>
-        <input type="text" value={Name} onChange={onNameHandler} />
-        <label>Password</label>
-        <input type="password" value={Password} onChange={onPasswordHandler} />
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          value={ConfirmPassword}
-          onChange={onConfirmPasswordHandler}
-        />
-        <button type="submit">Sign Up</button>
+        <div>
+          <label
+            style={{
+              fontSize: '2rem',
+              marginRight: '9.3rem',
+              color: '#4ba2c6',
+            }}
+          >
+            Email
+          </label>
+          <input
+            type="email"
+            value={Email}
+            onChange={onEmailHandler}
+            style={{
+              width: '20rem',
+              height: '3rem',
+              marginBottom: '2rem',
+            }}
+          />
+        </div>
+
+        <div>
+          <label
+            style={{
+              fontSize: '2rem',
+              marginRight: '8.8rem',
+              color: '#4ba2c6',
+            }}
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            value={Name}
+            onChange={onNameHandler}
+            style={{
+              width: '20rem',
+              height: '3rem',
+              marginBottom: '2rem',
+            }}
+          />
+        </div>
+
+        <div>
+          <label
+            style={{
+              fontSize: '2rem',
+              marginRight: '5.8rem',
+              color: '#4ba2c6',
+            }}
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            value={Password}
+            onChange={onPasswordHandler}
+            style={{ width: '20rem', height: '3rem', marginBottom: '2rem' }}
+          />
+        </div>
+
+        <div>
+          <label style={{ fontSize: '2rem', color: '#4ba2c6' }}>
+            Check Password
+          </label>
+          <input
+            type="password"
+            value={ConfirmPassword}
+            onChange={onConfirmPasswordHandler}
+            style={{ width: '20rem', height: '3rem', marginBottom: '2rem' }}
+          />
+        </div>
+        <button
+          type="submit"
+          style={{
+            padding: '1rem 0',
+            fontSize: '1rem',
+            backgroundColor: '#4ba2c6',
+            color: 'white',
+            fontWeight: '600',
+            cursor: 'pointer',
+          }}
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );

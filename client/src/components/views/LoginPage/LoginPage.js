@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom';
-import { Button } from 'antd';
 
 function LoginPage(props) {
   const dispatch = useDispatch();
@@ -27,6 +26,7 @@ function LoginPage(props) {
     };
 
     dispatch(loginUser(body)).then((response) => {
+      console.log(response.payload.loginSuccess);
       if (response.payload.loginSuccess) {
         props.history.push('/'); //로그인 성공시 이동
       } else {
